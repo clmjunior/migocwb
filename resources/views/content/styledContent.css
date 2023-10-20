@@ -1,0 +1,103 @@
+.navbar {
+    background-color: #fafafa;
+    box-shadow: 1px 1px 10px #ccc; 
+}
+
+.dropdown-menu {
+    z-index: 30000;
+}
+
+.footer {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fafafa;
+    box-shadow: 1px 1px 10px #ccc;
+    padding: 20px;
+    text-align: center;
+    height: 20vh;
+}
+
+.footer-link:hover {
+    opacity: 0.7;
+}
+
+.main-content {
+    flex-grow: 1;
+    margin-top: auto;
+}
+
+.edit-buttons-container {
+    position: absolute;
+    margin-top: -10px;
+    gap: 3px;
+}
+
+.card {
+    cursor: pointer ;
+    box-shadow: 1px 1px 10px #ccc;
+    z-index: 1;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.card:hover {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+}
+
+.card-wrapper {
+    height: 550px;
+}
+
+.card-img {
+    max-height: 150px;
+    width: auto;
+}
+
+.card-img-preview {
+    height: 40%;
+}
+
+.description {
+    height: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+}
+
+.card-img-top {
+    max-height: 500px;
+    width: auto;
+}
+
+.edit-form-btn {
+    z-index: 1000;
+}
+
+.btn-wrap {
+    height:40px;
+    z-index: 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2; 
+}
