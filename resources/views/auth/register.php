@@ -4,6 +4,11 @@ if (isset($_GET['message'])) {
     echo '<div class="alert alert-warning m-0 text-center">'.htmlspecialchars($message).'</div>';
 }
 
+if (isset($_GET['error'])) {
+  $error = urldecode($_GET['error']);
+  echo '<div class="alert alert-danger m-0 text-center">'.htmlspecialchars($error).'</div>';
+}
+
 if (isset($_GET['success-message'])) {
     $message = urldecode($_GET['success-message']);
     ?>
@@ -21,7 +26,7 @@ if (isset($_GET['success-message'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../public/style/auth/globals.css">
+    <link rel="stylesheet" href="../../public/style/globals.css">
     <link rel="stylesheet" href="../../public/style/auth/styledAuth.css">
 
     <title>Login</title>
@@ -29,18 +34,21 @@ if (isset($_GET['success-message'])) {
 <body>
   <main class="main">
         <div class="left-register">
-          <div class="logo-img-container">
-            <img src="../../public/img/logo.png" class="logo-img">
+          <div class="logo-container">
+            <img src="../../public/img/logo.png" class="logo">
           </div>
           <div class="btn-container">
-            <a href="./new-login.php">
+            <a href="./login.php">
                 <h2><button class="login-btn-fill hvr-grow">ENTRE</button></h2>
             </a>
           </div>
         </div>
         <div class="right">
+          <div class="mobile-logo-container">
+            <img src="../../public/img/logo-img.png" class="logo-img">
+          </div>
           <div class="form-container">
-            <form action="" class="form">
+            <form action="../../../controllers/form_handler.php?action=register-user" method="POST" class="form">
                 <h1 class="register-title">Cadastro</h1>
                 <div class="d-flex w-100">
                     <div class="input-container w-50 pe-2">
@@ -100,7 +108,7 @@ if (isset($_GET['success-message'])) {
                   <h2><button class="register-btn hvr-grow">CADASTRAR</button></h2>
                 </div>
                 <div class="mobile-link">
-                  <h6>Já possui uma conta? <a href="./new-login.php"><h2 class="login-link">Entrar</h2></a></h6>
+                  <h6>Já possui uma conta? <a href="./login.php"><h2 class="login-link">Entrar</h2></a></h6>
                 </div>
             </form>
           </div>

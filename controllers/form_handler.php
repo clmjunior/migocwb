@@ -2,15 +2,19 @@
 
 require_once __DIR__ . '/UserController.php';
 require_once __DIR__ . '/EventController.php';
+require_once(__DIR__ . '../../db/conn.php');
 
 $error_message = '';
 
 // Check the form action
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
-    require_once(__DIR__ . '../../db/conn.php');
-    Event::setConnection($conn);
-    User::setConnection($conn);
+    $conn = getDBConnection();
+
+    if($conn) {
+        Event::setConnection($conn);
+        User::setConnection($conn);
+    }
 
     switch ($action) {
         case 'authenticate':

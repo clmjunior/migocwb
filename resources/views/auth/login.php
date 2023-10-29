@@ -4,6 +4,11 @@ if (isset($_GET['message'])) {
     echo '<div class="alert alert-warning m-0 text-center">'.htmlspecialchars($message).'</div>';
 }
 
+if (isset($_GET['error'])) {
+    $error = urldecode($_GET['error']);
+    echo '<div class="alert alert-danger m-0 text-center">'.htmlspecialchars($error).'</div>';
+}
+
 if (isset($_GET['success-message'])) {
     $message = urldecode($_GET['success-message']);
     ?>
@@ -16,55 +21,57 @@ if (isset($_GET['success-message'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-        <script src="../../public/js/scripts.js"></script>
-        <link rel="stylesheet" href="./styledAuth.css">
-        <title>Login</title>
-        
-    </head>
-    <body class="overflow-hidden">
-        <div class="main-login ">
-            <div class="left-login">
-                <h1>Conheça agora esta comunidade!</h1>
-                <img class="left-login-image" src="../../public/img/logo.png" alt="">
-            </div>
-            <div class="right-login">
-                <div class="card-login">
-                    <h1>LOGIN</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../public/style/globals.css">
+    <link rel="stylesheet" href="../../public/style/auth/styledAuth.css">
 
-                    <!-- FORMULARIO DE LOGIN -->
-                    <form action="../../../controllers/form_handler.php?action=authenticate" method="POST">
-                        <div class="textfield">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="textfield">
-                            <label for="senha">Senha</label>
-                            <input type="password" name="senha" placeholder="Senha" required>
-                        </div>
-                        <button type="submit" name="adiciona" value="adiciona" class="btn-login">Entrar</button>
-                    </form>
-                    <div class="col-12 centralizar">
-                        <a href="#" class="link-primary">
-                            <p class="text-center">Esqueceu a senha?</p>
-                        </a>
-                    </div>
-                    <div class="col-6 centralizar">
-                        <button type="button" class="btn btn-success btn-xl col-12 btn-criarconta" data-bs-toggle="modal" data-bs-target="#exampleModal">Criar Conta</button>
-                    </div>
-                </div>
-            </div>
-            <?php
-
-                // INCLUINDO FORMULARIO DE REGISTRO DO USUARIO
-                include_once("./registration.php");
-            ?>
+    <title>Login</title>
+</head>
+<body>
+  <main class="main">
+        <div class="left-login">
+          <div class="logo-container">
+            <img src="../../public/img/logo.png" class="logo">
+          </div>
+          <div class="btn-container">
+            <a href="./register.php">
+              <h2><button class="register-btn-fill hvr-grow">CADASTRE-SE</button></h2>
+            </a>
+          </div>
         </div>
-    </body>
-</html>
+        <div class="right">
+          <div class="mobile-logo-container">
+            <img src="../../public/img/logo-img.png" class="logo-img">
+          </div>
+          <div class="form-container">
+            <form action="../../../controllers/form_handler.php?action=authenticate" method="POST" class="form">
+                <h1 class="login-title">Login</h1>
+              
+               <div class="input-container">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="email" class="form-input" name="Email" id="Email" placeholder="E-mail">
+                </div>
+              <div class="input-container">
+                  <label for="password" class="form-label">Senha</label>
+                  <input type="password" class="form-input" name="Password" id="Password" placeholder="Senha">
+                </div>
+                <div class="btn-container">
+                  <h2><button class="login-btn hvr-grow">ENTRAR</button></h2>
+              </div>
+              <div class="mobile-link">
+                  <h6>Não possui uma conta? <a href="./register.php"><h2 class="register-link">Cadastre-se</h2></a></h6>
+                </div>
+            </form>
+          </div>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../public/js/globals.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+   </div>
+  </body>
+  </html>

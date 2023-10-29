@@ -22,6 +22,7 @@
     --tan: #D2B48C;
     --royal-purple: #573C90;
     --tomato-red: #FF5037;
+    --black : #000000;
 }
 
 * {
@@ -32,7 +33,7 @@
 }
 
 h1 {
-    font-family: 'Vocal Bold', sans-serif;
+    font-family: 'Vocal ExtraBold', sans-serif;
     line-height: normal;
     font-style: normal;
     font-size: 35px;
@@ -40,12 +41,25 @@ h1 {
 }
 
 h2 {
-    font-family: 'Vocal ExtraBold', sans-serif;
+    font-family: 'Vocal Bold', sans-serif;
 }
 
 a {
     text-decoration: none;
     cursor: pointer;
+    color: var(--black);
+
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.alert {
+    position: absolute;
+    top: 5px;
 }
 
 .hvr-grow {
@@ -63,6 +77,29 @@ a {
 .hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+}
+
+.hvr-float {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.hvr-float:hover, .hvr-float:focus, .hvr-float:active {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+}
+
+.hvr-opacity:hover {
+    opacity: 80%;
 }
 
 .form-container {
@@ -96,6 +133,12 @@ a {
     border: none;
     border-radius: 5px;
     padding: 0 0 0 5%;
+    width: 100%;
+}
+
+.textarea-input {
+    height: 150px;
+    padding-top: 3%;
 }
 
 .form-input:focus, .form-input:focus-visible {

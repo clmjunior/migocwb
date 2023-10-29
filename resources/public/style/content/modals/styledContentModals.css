@@ -1,0 +1,75 @@
+:root {
+    --beige: #F5F5DC;
+}
+
+.modal-content {
+    background-color: var(--beige);
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-container {
+    width: 100%;
+}
+
+.flex-form {
+    display: flex;
+    justify-content:space-between;
+    width: 100%;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 10px;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 10px;
+}
+
+#image-input {
+    display: none;
+}
+  
+.custom-image-input {
+    height: 250px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    align-self: center;
+}
+  
+.image-preview {
+    height: 200px;
+    max-width: 100%;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+  
