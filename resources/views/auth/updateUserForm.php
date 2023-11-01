@@ -1,61 +1,95 @@
-<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="../../../controllers/form_handler.php?action=update-user&userId=<?= $user['id'] ?>" method="POST">
-                        <div class="mb-3">
-                            <label for="inputEmail4" class="form-label">Nome</label>
-                            <input name="nome" type="text" class="form-control" id="inputEmail4" placeholder="Nome" value="<?=$user['nome']?>">
+ <div class="modal fade" id="user-form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Usuário</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body overflow-hidden">
+        <div class="form-container">
+            <form action="../../../controllers/form_handler.php?action=update-user&userId=<?= $user['id'] ?>" method="POST">
+                <div class="flex-form flex-column">
+                    <div class="flex-form">
+
+                        <div class="left">
+                            <div class="input-container w-100 pb-2">
+                                <label for="image-input" class="custom-profile-image-input">
+                                    <?php
+                                        if (!empty($user['imagem'])) {
+                                            echo '<img src="data:image/jpeg;base64,' . $user['imagem'] . '" class="profile-image-preview" />';
+                                        } else {
+                                            echo '<span class="form-label">Trocar Imagem</span>';
+                                        }
+                                    ?>                            
+                                </label>
+                                <input type="file" id="image-input" name="imagem" accept="image/*"/>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="inputPassword4" class="form-label">Sobrenome</label>
-                            <input name="sobrenome" type="text" class="form-control" id="inputPassword4" placeholder="Sobrenome" value="<?=$user['sobrenome']?>">
+
+                        <div class="right">
+                            <div class="input-container w-100 pe-2">
+                                <label for="inputEmail4" class="form-label">Nome</label>
+                                <input name="nome" type="text" class="form-input" id="inputEmail4" placeholder="Nome" value="<?=$user['nome']?>">
+                            </div>
+                            <div class="input-container w-100 pe-2">
+                                <label for="inputPassword4" class="form-label">Sobrenome</label>
+                                <input name="sobrenome" type="text" class="form-input" id="inputPassword4" placeholder="Sobrenome" value="<?=$user['sobrenome']?>">
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="inputAddress" class="form-label">Email</label>
-                            <input name="email" type="email" class="form-control" id="inputAddress" placeholder="Email" value="<?=$user['email']?>">
-                        </div>
-                        <div class="mb-3">
+                    </div>
+                    <div class="input-container w-100 pe-2">
+                        <label for="inputAddress" class="form-label">Email</label>
+                        <input name="email" type="email" class="form-input" id="inputAddress" placeholder="Email" value="<?=$user['email']?>">
+                    </div>
+                    <div class="d-flex w-100">
+                        <div class="input-container w-50 pe-2">
                             <label for="inputAddress2" class="form-label">Senha</label>
-                            <input name="senha" type="password" class="form-control" id="inputAddress2" placeholder="Senha">
+                            <input name="senha" type="password" class="form-input" id="inputAddress2" placeholder="Senha">
                         </div>
-                        <div class="mb-3">
+                        <div class="input-container w-50 pe-2">
                             <label for="inputAddress2" class="form-label">Confirmar Senha</label>
-                            <input name="confirmar_senha" type="password" class="form-control" id="inputAddress2" placeholder="Confirmar Senha">
+                            <input name="confirmar_senha" type="password" class="form-input" id="inputAddress2" placeholder="Confirmar Senha">
                         </div>
-                        <div class="mb-3">
+                    </div>
+                    <div class="d-flex w-100">
+                        <div class="input-container w-75 pe-2">
                             <label for="inputZip" class="form-label">CEP</label>
-                            <input name="cep" type="text" class="form-control" id="inputZip" onblur="pesquisacep(this.value);" value="<?=$user['cep']?>">
+                            <input name="cep" type="text" class="form-input" id="inputZip" onblur="pesquisacep(this.value);" value="<?=$user['cep']?>">
                         </div>
-                        <div class="mb-3">
-                            <label for="inputCity" class="form-label">Cidade</label>
-                            <input name="cidade" type="text" class="form-control" id="cidade" readonly value="<?=$user['cidade']?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputState" class="form-label">Estado</label>
-                            <input name="uf" type="text" class="form-control" id="uf" readonly value="<?=$user['uf']?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputAddress2" class="form-label">Rua</label>
-                            <input name="rua" type="text" class="form-control" id="rua" readonly value="<?=$user['rua']?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputAddress2" class="form-label">Bairro</label>
-                            <input name="bairro" type="text" class="form-control" id="bairro" readonly value="<?=$user['bairro']?>">
-                        </div>
-                        <div class="mb-3">
+                        <div class="input-container w-25 pe-2">
                             <label for="inputAddress2" class="form-label">Número</label>
-                            <input name="numero" type="text" class="form-control" id="inputAddress2" placeholder="Número" value="<?=$user['numero']?>">
+                            <input name="numero" type="text" class="form-input" id="inputAddress2" placeholder="Número" value="<?=$user['numero']?>">
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Gravar</button>
+                    </div>
+                    <div class="d-flex w-100">
+                        <div class="input-container w-25 pe-2">
+                            <label for="inputState" class="form-label">UF</label>
+                            <input name="uf" type="text" class="form-input" id="uf" readonly value="<?=$user['uf']?>">
                         </div>
-                    </form>
+                        
+                        <div class="input-container w-75 pe-2">
+                            <label for="inputCity" class="form-label">Cidade</label>
+                            <input name="cidade" type="text" class="form-input" id="cidade" readonly value="<?=$user['cidade']?>">
+                        </div>
+                    </div>
+                    <div class="d-flex w-100">
+                        <div class="input-container w-50 pe-2">
+                            <label for="inputAddress2" class="form-label">Bairro</label>
+                            <input name="bairro" type="text" class="form-input" id="bairro" readonly value="<?=$user['bairro']?>">
+                        </div>
+                        <div class="input-container w-50 pe-2">
+                            <label for="inputAddress2" class="form-label">Rua</label>
+                            <input name="rua" type="text" class="form-input" id="rua" readonly value="<?=$user['rua']?>">
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Gravar</button>
+                </div>
+            </form>
         </div>
+      </div>
     </div>
+  </div>
+</div>

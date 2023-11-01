@@ -57,6 +57,21 @@
     cursor: pointer;
     align-self: center;
 }
+
+.custom-profile-image-input {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    align-self: center;
+    border-radius: 100%;
+}
   
 .image-preview {
     height: 200px;
@@ -64,6 +79,15 @@
     max-height: 200px;
     display: block;
     margin: 0 auto;
+}
+
+.profile-image-preview {
+    height: 150px;
+    max-width: 120%;
+    max-height: 150px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 100%;
 }
 
 .modal-footer {
