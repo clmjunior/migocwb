@@ -28,6 +28,7 @@ CREATE TABLE `users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `sobrenome` VARCHAR(50) NOT NULL,
+  `imagem` TEXT NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `senha` VARCHAR(50) NOT NULL,
   `cep` INT(8) NOT NULL,

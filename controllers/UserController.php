@@ -70,6 +70,20 @@ class User {
         
         try {
 
+            // Check if a file was uploaded
+            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+                $tmpImagePath = $_FILES['imagem']['tmp_name'];
+    
+                // Read the uploaded image file
+                $imageData = file_get_contents($tmpImagePath);
+    
+                // Convert the image data to base64
+                $base64Image = base64_encode($imageData);
+            } else {
+                // No image uploaded
+                $base64Image = ""; // Set a default value or handle the case as needed
+            }
+
             $sql = 'SELECT * FROM users 
                         WHERE 
                         email=:email';
@@ -95,6 +109,7 @@ class User {
             $sql = "INSERT INTO users (
                                         nome, 
                                         sobrenome, 
+                                        imagem, 
                                         email, 
                                         senha, 
                                         cep, 
@@ -106,6 +121,7 @@ class User {
                                         ) VALUES (
                                             :nome, 
                                             :sobrenome, 
+                                            :imagem, 
                                             :email, 
                                             :senha, 
                                             :cep, 
@@ -123,6 +139,7 @@ class User {
         
             $stmt->bindParam(':nome',      $_POST['Name']);
             $stmt->bindParam(':sobrenome', $_POST['LastName']);
+            $stmt->bindParam(':imagem',    $base64Image);
             $stmt->bindParam(':email',     $_POST['Email']);
             $stmt->bindParam(':senha',     $hashedPassword);
             $stmt->bindParam(':cep',       $_POST['CEP']);
@@ -147,6 +164,20 @@ class User {
     public static function putUser($userId) {
         
         try {
+
+            // Check if a file was uploaded
+            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+                $tmpImagePath = $_FILES['imagem']['tmp_name'];
+    
+                // Read the uploaded image file
+                $imageData = file_get_contents($tmpImagePath);
+    
+                // Convert the image data to base64
+                $base64Image = base64_encode($imageData);
+            } else {
+                // No image uploaded
+                $base64Image = ""; // Set a default value or handle the case as needed
+            }
             
             $sql = 'SELECT * FROM users 
                         WHERE 
@@ -174,6 +205,7 @@ class User {
             $sql = "UPDATE users SET
                         nome        = :nome,
                         sobrenome   = :sobrenome,
+                        imagem      = :imagem,
                         email       = :email,
                         senha       = :senha,
                         cep         = :cep,
@@ -191,6 +223,7 @@ class User {
         
             $stmt->bindParam(':nome',      $_POST['nome']);
             $stmt->bindParam(':sobrenome', $_POST['sobrenome']);
+            $stmt->bindParam(':imagem',    $base64Image);
             $stmt->bindParam(':email',     $_POST['email']);
             $stmt->bindParam(':senha',     $hashedPassword);
             $stmt->bindParam(':cep',       $_POST['cep']);

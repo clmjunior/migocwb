@@ -1,5 +1,4 @@
 <?php
-
 require_once('../../../controllers/UserController.php');
 require_once('../../../controllers/EventController.php');
 require_once(__DIR__ . '../../../../db/conn.php');
@@ -18,8 +17,8 @@ if (!$_SESSION['id']) {
     User::setConnection($conn);
   }
 
-  $user = User::getUser($_SESSION['id']);
-  $events = Event::getEvents();
+  $user = User::getUser($_SESSION['id'],$conn);
+  $events = Event::getMyEvents($user['id']);
 }
 
 if (isset($_GET['message'])) {
