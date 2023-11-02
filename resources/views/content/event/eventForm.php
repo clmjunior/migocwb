@@ -1,6 +1,6 @@
 <div class="modal fade" id="event-form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal-content modal-content-beige">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Novo Evento</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -13,8 +13,8 @@
                     <div class="left">
                         <div class="input-container w-100">
                             <label for="image-input" class="custom-image-input">
-                                <img src="data:image/jpeg;base64,<?= $event['imagem'] ?>" alt="Image Goes Here" class="image-preview" />
-                                <span class="form-label">Trocar Imagem</span>
+                                <img  class="image-preview" />
+                                <span class="form-label">Inserir Imagem</span>
                             </label>
                             <input type="file" id="image-input" name="imagem" accept="image/*"/>
                         </div>

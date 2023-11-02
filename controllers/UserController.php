@@ -1,14 +1,28 @@
 <?php
-
 class User {
     
-    private static $conn;
+    /**
+     * Objeto de conexão com o banco de dados.
+     *
+     * @var object
+     */
+    private $conn;
 
-    public static function setConnection($conn) {
-        self::$conn = $conn;
+    /**
+     * Construtor da classe User.
+     *
+     * @param object $conn Objeto de conexão com o banco de dados.
+     */
+    public function __construct($conn) {
+        $this->conn = $conn;
     }
 
-    public static function authenticate() {
+    /**
+     * Autentica um usuário com base no email e senha fornecidos.
+     *
+     * @throws Exception Em caso de erro na autenticação.
+     */
+    public function authenticate() {
         
         try {
             session_start();
@@ -25,7 +39,7 @@ class User {
                         WHERE 
                         email=:email';
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute(['email' => $email]);
 
             $userExists = $stmt->fetch();
@@ -37,7 +51,7 @@ class User {
                         email=:email 
                         AND 
                         senha=:senha';
-                $stmt = self::$conn->prepare($sql);
+                $stmt = $this->conn->prepare($sql);
                 $stmt->execute(['email' => $email, 'senha' => $password]);
     
                 $user = $stmt->fetch();
@@ -66,7 +80,12 @@ class User {
         }
     }
 
-    public static function postUser() {
+    /**
+     * Insere um novo usuário no banco de dados.
+     *
+     * @throws Exception Em caso de erro na inserção.
+     */
+    public function postUser() {
         
         try {
 
@@ -88,7 +107,7 @@ class User {
                         WHERE 
                         email=:email';
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute(['email' => $_POST['email']]);
 
             $emailExists = $stmt->fetch();
@@ -132,7 +151,7 @@ class User {
                                             :bairro
                                         )";
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
 
             // Criptografa a senha usando MD5
             $hashedPassword = md5($_POST['senha']);
@@ -161,13 +180,19 @@ class User {
 
     }
 
-    public static function putUser($userId) {
+    /**
+     * Atualiza os dados de um usuário no banco de dados.
+     *
+     * @param int $userId ID do usuário a ser atualizado.
+     * @throws Exception Em caso de erro na atualização.
+     */
+    public function putUser($userId) {
         
         try {
-
+            
             // Check if a file was uploaded
-            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
-                $tmpImagePath = $_FILES['imagem']['tmp_name'];
+            if (isset($_FILES['imagem-perfil']) && $_FILES['imagem-perfil']['error'] === UPLOAD_ERR_OK) {
+                $tmpImagePath = $_FILES['imagem-perfil']['tmp_name'];
     
                 // Read the uploaded image file
                 $imageData = file_get_contents($tmpImagePath);
@@ -184,7 +209,7 @@ class User {
                         email = :email
                         AND id != :id';
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute(['email' => $_POST['email'],'id' => $userId ]);
 
             $emailExists = $stmt->fetch();
@@ -216,7 +241,7 @@ class User {
                         bairro      = :bairro
                         WHERE id    = :id";
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
 
             // Criptografa a senha usando MD5
             $hashedPassword  = md5($_POST['senha']);
@@ -246,13 +271,19 @@ class User {
 
     }
 
-    public static function getUser($id) {
+    /**
+     * Obtém informações de um usuário com base em seu ID.
+     *
+     * @param int $id ID do usuário a ser obtido.
+     * @return array|null Um array com as informações do usuário ou null se o usuário não for encontrado.
+     */
+    public function getUser($id) {
         
         $sql = 'SELECT * FROM users 
                     WHERE 
                     id=:id';
 
-        $stmt = self::$conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
 
         $user = $stmt->fetch();
@@ -261,6 +292,9 @@ class User {
 
     }
 
+    /**
+     * Realiza o logout do usuário.
+     */
     public static function logout() {
         
         session_start();

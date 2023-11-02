@@ -70,7 +70,13 @@ body {
 .nav-user {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+}
+
+.profile-pic {
+    width: 50px!important;
+    height: auto;
+    border-radius: 100%;
 }
 
 .dropdown-menu {
@@ -175,11 +181,6 @@ body {
 
 }
 
-.card-img-top {
-    max-height: 500px;
-    width: auto;
-}
-
 .card-title {
     text-align: center;
 }
@@ -216,4 +217,37 @@ body {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5); 
     z-index: 2; 
+}
+
+@media screen and (max-width: 820px) {
+    .card-wrapper {
+        height: 550px;
+        width: 50%;
+    }
+
+    .nav-logo {
+        width: 35%;
+    }
+
+    .nav-logo-text {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .card-wrapper {
+        height: 550px;
+        width: 100%!important;
+    }
+
+    .nav-logo-text, .username {
+        display: none;
+    }
+
+    .nav-logo {
+        width: 70%;
+    }
+    .searchbar-container {
+        width: 65%;
+    }
 }

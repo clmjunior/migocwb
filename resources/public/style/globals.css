@@ -150,3 +150,16 @@ a:visited {
 .form-input::placeholder {
     color: var(--tan);
 }
+
+@media screen and (max-width: 820px) {
+    .alert {
+        width: 50%!important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .alert {
+        position: absolute;
+        width: 70%!important;
+    }    
+}
