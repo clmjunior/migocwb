@@ -1,8 +1,14 @@
 :root {
     --beige: #F5F5DC;
+    --snow-white: #FEFEFE;
 }
 
+
 .modal-content {
+    background-color: var(--snow-white);
+}
+
+.modal-content-beige {
     background-color: var(--beige);
 }
 
@@ -40,7 +46,7 @@
     padding: 10px;
 }
 
-#image-input {
+#update-image-input, #image-input, #profile-image-input {
     display: none;
 }
   
@@ -62,7 +68,6 @@
     height: 150px;
     width: 150px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 2px dashed #ccc;
@@ -95,5 +100,67 @@
     justify-content: center;
     align-items: center;
 }
+
+.event-modal-container {
+    width: 100%;
+}
+
+.wrap-img {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.modal-img-container {
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    filter: blur(10px);
+}
+
+.card-img-top {
+    width: auto;
+    max-height: 100%;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.event-modal-content  {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    padding: 0 150px 150px 150px;
+    gap: 50px;
+}
+
+@media screen and (max-width: 820px) {
+    
+    .event-modal-content  {
+        padding: 0 50px 50px 50px;
+    }
+
+    .flex-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left, .right {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    
+    .event-modal-content  {
+        padding: 0 20px 20px 20px;
+    }
+}
+
   
   

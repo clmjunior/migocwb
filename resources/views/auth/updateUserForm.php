@@ -1,19 +1,19 @@
  <div class="modal fade" id="user-form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-md">
-    <div class="modal-content">
+    <div class="modal-content modal-content-beige">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Usuário</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body overflow-hidden">
         <div class="form-container">
-            <form action="../../../controllers/form_handler.php?action=update-user&userId=<?= $user['id'] ?>" method="POST">
+            <form action="../../../controllers/form_handler.php?action=update-user&userId=<?= $user['id'] ?>" method="POST" enctype="multipart/form-data">
                 <div class="flex-form flex-column">
                     <div class="flex-form">
 
                         <div class="left">
                             <div class="input-container w-100 pb-2">
-                                <label for="image-input" class="custom-profile-image-input">
+                                <label for="profile-image-input" class="custom-profile-image-input">
                                     <?php
                                         if (!empty($user['imagem'])) {
                                             echo '<img src="data:image/jpeg;base64,' . $user['imagem'] . '" class="profile-image-preview" />';
@@ -22,7 +22,7 @@
                                         }
                                     ?>                            
                                 </label>
-                                <input type="file" id="image-input" name="imagem" accept="image/*"/>
+                                <input type="file" id="profile-image-input" name="imagem-perfil" accept="image/*"/>
                             </div>
                         </div>
 

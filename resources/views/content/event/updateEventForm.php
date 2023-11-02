@@ -1,6 +1,6 @@
 <div class="modal fade" id="update_modal_<?=$event['id']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-xl">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+    <div class="modal-content modal-content-beige">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Alterar Evento</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -12,11 +12,11 @@
 
                     <div class="left">
                         <div class="input-container w-100">
-                            <label for="image-input" class="custom-image-input">
+                            <label for="update-image-input" class="custom-image-input">
                                 <img src="data:image/jpeg;base64,<?= $event['imagem'] ?>" alt="Image Preview" class="image-preview" />
                                 <span class="form-label">Trocar Imagem</span>
                             </label>
-                            <input type="file" id="image-input" name="imagem" accept="image/*"/>
+                            <input type="file" id="update-image-input" name="imagem" accept="image/*"/>
                         </div>
                         
                         <div class="input-container w-100 pe-2">

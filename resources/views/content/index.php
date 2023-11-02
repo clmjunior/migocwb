@@ -2,9 +2,11 @@
 
 require_once('../../../controllers/UserController.php');
 require_once('../../../controllers/EventController.php');
+require('../../../controllers/Functions.php');
 require_once(__DIR__ . '../../../../db/conn.php');
 
 session_start();
+$oFunc = new Functions;
 
 if (!$_SESSION['id']) {
   $message = 'Você deve efetuar o login para visualizar o conteudo!';
@@ -14,12 +16,14 @@ if (!$_SESSION['id']) {
 } else {
   $conn = getDBConnection();
   if($conn) {
-    Event::setConnection($conn);
-    User::setConnection($conn);
+
+    $oUser = new User($conn);
+    $user = $oUser->getUser($_SESSION['id']);
+
+    $oEvent = new Event($conn);
+    $events = $oEvent->getEvents($user['id']);
   }
 
-  $user = User::getUser($_SESSION['id']);
-  $events = Event::getEvents();
 }
 
 if (isset($_GET['message'])) {
@@ -69,8 +73,10 @@ if (isset($_GET['error-message'])) {
         <!-- NAVBAR -->
         <nav class="navbar">
             <div class="navbar-logo-container">
-              <img src="../../public/img/logo-img.png" class="nav-logo" alt="..." >
-              <img src="../../public/img/colored-logo-text.png" class="nav-logo-text" alt="..." >
+              <a href="./index.php" class="hvr-opacity">
+                <img src="../../public/img/logo-img.png" class="nav-logo" alt="..." >
+                <img src="../../public/img/colored-logo-text.png" class="nav-logo-text" alt="..." >
+              </a>
             </div>
 
             <form class="searchbar-container" role="search">
@@ -85,11 +91,21 @@ if (isset($_GET['error-message'])) {
             <div class="dropdown">
               <a class="hvr-opacity user-container" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-user">
-                    <h1 class="fs-6"><?= $user['nome']." ".$user['sobrenome'] ?></h1>
-                    <img src="../../public/img/profilePic.png" class="img-fluid rounded-circle" style="width:4vw;" alt="Profile Picture">
+                    <h1 class="fs-6 username"><?= $user['nome']." ".$user['sobrenome'] ?></h1>
+                    <?php
+                      if (!empty($user['imagem'])) {
+                    ?>
+                      <img src="data:image/jpeg;base64,<?=$user['imagem']?>" class="profile-pic" alt="Profile Picture">
+                    <?php
+                      } else {
+                    ?>
+                      <img src="../../public/img/profilePic.png" class="profile-pic" title="Voce não possui uma foto de perfil" alt="Profile Picture">
+                    <?php
+                      }
+                    ?>
                 </div>
               </a>
-              <ul class="dropdown-menu me-5">
+              <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#user-form"><h2 class="fs-6">Editar Perfil</h2></a></li>
                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#event-form"><h2 class="fs-6">Promover Evento</h2></a></li>
                 <li><a class="dropdown-item" href="./myEvents.php"><h2 class="fs-6">Meus Eventos</h2></a></li>
@@ -126,7 +142,7 @@ if (isset($_GET['error-message'])) {
               </div>
               <div class="date-container">
                   <div class="date">
-                    <h1 class="fs-6">Data: <?= $event['data']." às ".$event['horario']?></h1>
+                    <h1 class="fs-6">Data: <?= date("d/m/Y", strtotime($event['data'])) . " às " . $event['horario']?></h1>
                   </div>
               </div>
                 <div class="presences-container">
@@ -135,13 +151,13 @@ if (isset($_GET['error-message'])) {
                         <span class="badge rounded-pill">
                         <?php
                           require_once(__DIR__ . '../../../../db/conn.php');
-                          $count = Event::getConfirmedPresences($event['id']);
+                          $count = $oEvent->getConfirmedPresences($event['id']);
                           echo $count;
                         ?>
                         </span>
                         <?php
                           require_once(__DIR__ . '../../../../db/conn.php');
-                          $count = Event::isParticipating($event['id'], $user['id']);
+                          $count = $oEvent->isParticipating($event['id'], $user['id']);
                           if($count > 0 ) {
                         ?>
                             <ion-icon class="text-success" title="Você está participando deste evento." name="checkmark-circle"></ion-icon>
@@ -199,49 +215,8 @@ if (isset($_GET['error-message'])) {
               </div>
             </div>
           </div>
-          
-          <!-- MODAL VER MAIS -->
-          <div class="modal fade modal-lg" id="modal_<?=$event['id']?>" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel"><?= $event['titulo']?></h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="p-5 d-flex align-items-center justify-content-center">
-                        <img src="data:image/jpeg;base64,<?= $event['imagem'] ?>" class="card-img-top rounded-2" alt="...">
-                      </div>
-                        <div class="mt-3 px-5">
-                          
-                          <h1>Descrição do Evento</h1>
-                          <p><?= $event['descricao']?></p>
-                          <?php
-                            if($event['flag_promocao'] === "S") {
-                              ?>
-                          <h3 class="fw-bolder">Promoção</h3>
-                          <p><?= $event['desc_promocao']?></p>
-                          <?php
-                          }
-                          ?>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <form id="confirmPresenceForm" action="../../../controllers/form_handler.php?action=confirm-presence&userId=<?= $user['id']?>&eventId=<?= $event['id'] ?>" method="post">
-                    <input type="hidden" name="action" value="confirmPresence">
-                    <input type="hidden" name="userId" value="<?= $user['id'] ?>">
-                    <input type="hidden" name="eventId" value="<?= $event['id'] ?>">
-                    <button type="submit" class="btn btn-primary">Confirmar Presença</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
         <?php
+          include('./event/eventModal.php');
         }
         ?>
     </main>

@@ -1,13 +1,29 @@
 <?php
 class Event {
 
-    private static $conn;
+    /**
+     * Objeto de conexão com o banco de dados.
+     *
+     * @var object
+     */
+    private $conn;
 
-    public static function setConnection($conn) {
-        self::$conn = $conn;
+    /**
+     * Construtor da classe Event.
+     *
+     * @param object $conn Objeto de conexão com o banco de dados.
+     */
+    public function __construct($conn) {
+        $this->conn = $conn;
     }
     
-    public static function postEvent($userId) {
+    /**
+     * Insere um evento no banco de dados.
+     *
+     * @param int $userId ID do usuário que está criando o evento.
+     * @throws Exception Em caso de erro na inserção.
+     */
+    public function postEvent($userId) {
         try {
             require_once(__DIR__ . '/../db/conn.php');
             
@@ -58,7 +74,7 @@ class Event {
                                 :bairro
                             )";
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             
             // Bind parameters
             $stmt->bindParam(':user_id',      $userId);
@@ -86,10 +102,19 @@ class Event {
         }
     }
 
-    public static function putEvent($eventId) {
+    /**
+     * Atualiza um evento no banco de dados.
+     *
+     * @param int $eventId ID do evento a ser atualizado.
+     * @throws Exception Em caso de erro na atualização.
+     */
+    public function putEvent($eventId) {
         
         try {
-            
+            echo '<pre>';
+            var_dump($_FILES);
+            echo '</pre>';
+            exit;
             require_once(__DIR__ . '/../db/conn.php');
 
             // Check if a file was uploaded
@@ -127,7 +152,7 @@ class Event {
 
             $sql .= " WHERE id = :id";
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             
             $stmt->bindParam(':titulo',       $_POST['titulo']);
             $stmt->bindParam(':descricao',    $_POST['descricao']);
@@ -159,7 +184,14 @@ class Event {
         }
     }
 
-    public static function confirmPresence($userId, $eventId) {
+    /**
+     * Confirma a presença de um usuário em um evento.
+     *
+     * @param int $userId ID do usuário que está confirmado presença.
+     * @param int $eventId ID do evento em que a presença é confirmada.
+     * @throws Exception Em caso de erro na confirmação de presença.
+     */
+    public function confirmPresence($userId, $eventId) {
         
         try {
             require_once(__DIR__ . '/../db/conn.php');
@@ -171,7 +203,7 @@ class Event {
                         event_id = :event_id
                         AND user_id = :user_id";
 
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
 
             // Bind parameters
             $stmt->bindParam(':event_id',$eventId);
@@ -193,7 +225,7 @@ class Event {
                                     :user_id
                                 )";
 
-                $stmt = self::$conn->prepare($sql);
+                $stmt = $this->conn->prepare($sql);
 
                 // Bind parameters
                 $stmt->bindParam(':event_id',$eventId);
@@ -210,12 +242,18 @@ class Event {
         }
     }
 
-    public static function inactiveEvent($eventId) {
+    /**
+     * Inativa um evento.
+     *
+     * @param int $eventId ID do evento a ser inativado.
+     * @throws Exception Em caso de erro na inativação.
+     */
+    public function inactiveEvent($eventId) {
         
         try {
             require_once(__DIR__ . '/../db/conn.php');
             
-            $presences = self::getConfirmedPresences($eventId);
+            $presences = $this->getConfirmedPresences($eventId);
 
             
             if(!empty($presences)) {
@@ -230,7 +268,7 @@ class Event {
                         WHERE id  = :event_id";
 
                 $isActive = "N";
-                $stmt = self::$conn->prepare($sql);
+                $stmt = $this->conn->prepare($sql);
                 $stmt->bindParam(':event_id',   $eventId);
                 $stmt->bindParam(':flag_ativo', $isActive);
                         
@@ -246,7 +284,13 @@ class Event {
         }
     }
 
-    public static function activeEvent($eventId) {
+    /**
+     * Ativa um evento.
+     *
+     * @param int $eventId ID do evento a ser ativado.
+     * @throws Exception Em caso de erro na ativação.
+     */
+    public function activeEvent($eventId) {
         
         try {
             require_once(__DIR__ . '/../db/conn.php');
@@ -258,7 +302,7 @@ class Event {
 
             $isActive = "S";
             
-            $stmt = self::$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':event_id',   $eventId);
             $stmt->bindParam(':flag_ativo', $isActive);
                     
@@ -273,12 +317,18 @@ class Event {
         }
     }
 
-    public static function getConfirmedPresences($eventId) {
+    /**
+     * Obtém o número de presenças confirmadas em um evento.
+     *
+     * @param int $eventId ID do evento.
+     * @return int O número de presenças confirmadas.
+     */
+    public function getConfirmedPresences($eventId) {
         
         $sql = 'SELECT COUNT(*) FROM event_attendees
                 WHERE event_id = :event_id';
     
-        $stmt = self::$conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':event_id', $eventId);
         $stmt->execute();
         
@@ -287,12 +337,19 @@ class Event {
         return $count;
     }
 
-    public static function isParticipating($eventId, $userId) {
+    /**
+     * Verifica se um usuário está participando de um evento.
+     *
+     * @param int $eventId ID do evento.
+     * @param int $userId ID do usuário.
+     * @return int 1 se o usuário está participando, 0 caso contrário.
+     */
+    public function isParticipating($eventId, $userId) {
         $sql = 'SELECT COUNT(*) FROM event_attendees
                 WHERE event_id  = :event_id
                 AND user_id     = :user_id';
     
-        $stmt = self::$conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':event_id', $eventId);
         $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
@@ -302,15 +359,19 @@ class Event {
         return $count;
     }
     
-    
-    public static function getEvents() {
+    /**
+     * Obtém todos os eventos ativos.
+     *
+     * @return array Um array contendo informações dos eventos ativos.
+     */
+    public function getEvents() {
         
         $sql = 'SELECT * FROM events
                 WHERE flag_ativo = :flag_ativo';
     
         $isActive = "S";
 
-        $stmt = self::$conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':flag_ativo', $isActive);
         $stmt->execute();
     
@@ -323,12 +384,18 @@ class Event {
         return $events;
     }
 
-    public static function getMyEvents($userId) {
+    /**
+     * Obtém todos os eventos criados por um usuário.
+     *
+     * @param int $userId ID do usuário.
+     * @return array Um array contendo informações dos eventos do usuário.
+     */
+    public function getMyEvents($userId) {
         
         $sql = 'SELECT * FROM events
                 WHERE user_id = :user_id';
     
-        $stmt = self::$conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
     

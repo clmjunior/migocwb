@@ -12,41 +12,41 @@ if (isset($_GET['action'])) {
     $conn = getDBConnection();
 
     if($conn) {
-        Event::setConnection($conn);
-        User::setConnection($conn);
+        $oEvent = new Event($conn);
+        $oUser = new User($conn);
     }
 
     switch ($action) {
         case 'authenticate':
-            User::authenticate();
+            $oUser->authenticate();
             break;
 
         case 'register-user':
-            User::postUser();
+            $oUser->postUser();
             break;
 
         case 'update-user':
-            User::putUser($_GET['userId']);
+            $oUser->putUser($_GET['userId']);
             break;
 
         case 'register-event':
-            Event::postEvent($_GET['userId']);
+            $oEvent->postEvent($_GET['userId']);
             break;
         
         case 'update-event':
-            Event::putEvent($_GET['eventId']);
+            $oEvent->putEvent($_GET['eventId']);
             break;
         
         case 'inactive-event':
-            Event::inactiveEvent($_GET['eventId']);
+            $oEvent->inactiveEvent($_GET['eventId']);
             break;
 
         case 'active-event':
-            Event::activeEvent($_GET['eventId']);
+            $oEvent->activeEvent($_GET['eventId']);
             break;
 
         case 'confirm-presence':
-            Event::confirmPresence($_GET['userId'],$_GET['eventId']);
+            $oEvent->confirmPresence($_GET['userId'],$_GET['eventId']);
             break;
 
         default:
