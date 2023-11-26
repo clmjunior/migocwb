@@ -111,10 +111,7 @@ class Event {
     public function putEvent($eventId) {
         
         try {
-            echo '<pre>';
-            var_dump($_FILES);
-            echo '</pre>';
-            exit;
+            
             require_once(__DIR__ . '/../db/conn.php');
 
             // Check if a file was uploaded
